@@ -14,16 +14,16 @@ import com.ssthouse.twopersonchat.util.ViewHelper;
 /**
  * Created by ssthouse on 2015/8/5.
  */
-public class ActivityChat extends AppCompatActivity{
+public class ActivityChat extends AppCompatActivity {
 
     public static void start(Activity activity){
         activity.startActivity(new Intent(activity, ActivityChat.class));
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+//        setContentView(R.layout.activity_chat);
         TransparentStyle.setAppToTransparentStyle(this, getResources().getColor(R.color.color_primary_dark));
 
         initView();
