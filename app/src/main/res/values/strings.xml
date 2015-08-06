@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TwoPersonChat</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!--SlidingMenu-->
+    <string name="drawer_open">打开了</string>
+    <string name="drawer_close">关上了</string>
+</resources>

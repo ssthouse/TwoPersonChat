@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/id_card_view"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/light_gray"
+        android:layout_margin="8dp"
+        android:layout_height="80dp"
+        android:layout_width="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/id_tv_user_name"
+                android:text="user name"
+                android:layout_gravity="center"
+                android:textSize="26sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/id_tv_pass_word"
+                android:text="password"
+                android:layout_gravity="center"
+                android:textSize="26sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/id_btn_choose_her"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="就是Ta了"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>

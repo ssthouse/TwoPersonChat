@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@color/color_primary_light"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/id_iv_avater"
+            android:layout_margin="12dp"
+            android:src="@drawable/avatar_boy"
+            android:layout_width="@dimen/sm_avatar_width"
+            android:layout_height="@dimen/sm_avatar_width" />
+
+        <TextView
+            android:paddingTop="4dp"
+            android:layout_marginLeft="@dimen/sm_padding_left"
+            android:textSize="@dimen/sm_text_size_user_name"
+            android:textColor="@color/white"
+            android:text="user name"
+            android:id="@+id/id_tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingTop="4dp"
+            android:layout_marginLeft="@dimen/sm_padding_left"
+            android:textSize="@dimen/sm_text_size_motto"
+            android:textColor="@color/white"
+            android:layout_marginBottom="20dp"
+            android:text="motto"
+            android:id="@+id/id_tv_motto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sm_item_height">
+        <TextView
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/sm_padding_left"
+            android:textSize="@dimen/sm_text_size_item"
+            android:text="设置"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sm_item_height" />
+    </LinearLayout>
+
+</LinearLayout>

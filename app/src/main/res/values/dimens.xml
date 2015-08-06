@@ -1,0 +1,24 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="snack_bar_height">56dp</dimen>
+
+    <dimen name="edit_text_width">250dp</dimen>
+    <dimen name="edit_text_height">62dp</dimen>
+
+    <!--ActionBar-->
+    <dimen name="action_bar_text_size">16sp</dimen>
+
+    <!--SlidingMenu-->
+    <dimen name="sm_padding_left">12dp</dimen>
+    <dimen name="sm_shadow_width">3dp</dimen>
+    <dimen name="sm_width">250dp</dimen>
+    <dimen name="sm_avatar_width">72dp</dimen>
+    <dimen name="sm_item_height">56dp</dimen>
+    <!--SlidingMenu文字大小-->
+    <dimen name="sm_text_size_user_name">18sp</dimen>
+    <dimen name="sm_text_size_motto">16sp</dimen>
+    <dimen name="sm_text_size_item">18sp</dimen>
+</resources>
