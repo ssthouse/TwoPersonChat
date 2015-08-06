@@ -12,6 +12,12 @@ import java.util.Date;
 
 /**
  * Created by ssthouse on 2015/8/4.
+ *
+ * bornDate---Date
+ *
+ * taUserName---String
+ *
+ * isBoy---boolean
  */
 public class User extends AVUser{
 
@@ -19,11 +25,19 @@ public class User extends AVUser{
 
     //出生日期
     private static final String BORN_DATE = "bornData";
-    private Date bornDate;
+    private Date bornDate = new Date();
+
+    //宣言--座右铭---motto
+    private static final String MOTTO = "motto";
+    private String motto = "";
 
     //绑定的Ta
     private static final String TA_USER_NAME = "taUserName";
-    private String taUserName;
+    private String taUserName = "";
+
+    //是不是男的
+    private static final String IS_BOY = "isBoy";
+    private boolean isBoy = true;
 
     public User(){
 

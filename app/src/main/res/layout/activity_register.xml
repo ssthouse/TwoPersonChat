@@ -1,58 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.TextInputLayout
+    <!--头像-->
+    <ImageView
+        android:id="@+id/id_iv_avatar"
+        android:layout_margin="12dp"
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/id_et_username"
-            android:hint="user name"
-            android:layout_width="250dp"
-            android:layout_height="56dp" />
+        android:src="@drawable/avatar_boy"
+        android:layout_width="@dimen/user_info_avatar_size"
+        android:layout_height="@dimen/user_info_avatar_size" />
 
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/id_et_password"
-            android:hint="password"
-            android:layout_width="250dp"
-            android:layout_height="56dp" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <LinearLayout
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:gravity="center"
+    <android.support.v7.widget.CardView
+        android:layout_gravity="center"
+        app:cardCornerRadius="@dimen/user_info_card_view_radius"
+        app:cardBackgroundColor="@color/white"
+        android:layout_margin="8dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content">
 
-        <Button
-            android:id="@+id/id_btn_register"
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center_horizontal"
+        <LinearLayout
+            android:layout_margin="6dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="注册"/>
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/id_btn_log_in"
-            android:layout_marginTop="8dp"
+        <android.support.design.widget.TextInputLayout
             android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="登陆"/>
+            android:gravity="center"
+            android:layout_width="@dimen/register_et_width"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/id_et_username"
+                android:hint="user name"
+                android:layout_width="250dp"
+                android:layout_height="@dimen/register_et_height" />
 
-    </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="@dimen/register_et_width"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/id_et_password"
+                    android:hint="password"
+                    android:layout_width="250dp"
+                    android:layout_height="@dimen/register_et_height" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:background="@drawable/selector_btn_to_blue"
+        android:textColor="@drawable/selector_text_to_white"
+        android:id="@+id/id_btn_register"
+        android:layout_margin="8dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="@dimen/register_btn_commit_width"
+        android:layout_height="wrap_content"
+        android:text="注册"/>
 
 </LinearLayout>

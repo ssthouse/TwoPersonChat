@@ -41,4 +41,7 @@ dependencies {
     //fabButton
     compile 'com.github.clans:fab:1.5.4'
     compile files('libs/slidingmenu.jar')
+    //material design dialog
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.github.sd6352051.niftydialogeffects:niftydialogeffects:1.0.0@aar'
 }

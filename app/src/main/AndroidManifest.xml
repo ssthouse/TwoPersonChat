@@ -39,13 +39,16 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.ActivityFindHer"/>
-
+        <!--初始化登录***注册-->
         <activity android:name=".activity.ActivityLogin"/>
-
         <activity android:name=".activity.ActivityRegister"/>
 
+        <activity android:name=".activity.ActivityFindHer"/>
         <activity android:name=".activity.ActivityChat"/>
+
+        <!--SlidingMenu中的Activity-->
+        <activity android:name=".activity.ActivitySetting"/>
+        <activity android:name=".activity.ActivityUserInfo"/>
 
     </application>
 

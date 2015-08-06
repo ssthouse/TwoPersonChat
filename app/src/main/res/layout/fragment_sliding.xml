@@ -2,17 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="250dp"
     android:background="@color/white"
+    android:clickable="false"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/id_ll_user_info"
         android:background="@color/color_primary_light"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/id_iv_avater"
+            android:id="@+id/id_iv_avatar"
             android:layout_margin="12dp"
             android:src="@drawable/avatar_boy"
             android:layout_width="@dimen/sm_avatar_width"
@@ -40,17 +42,11 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <ListView
+        android:id="@+id/id_lv"
+        android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sm_item_height">
-        <TextView
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/sm_padding_left"
-            android:textSize="@dimen/sm_text_size_item"
-            android:text="设置"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/sm_item_height" />
-    </LinearLayout>
-
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    
 </LinearLayout>

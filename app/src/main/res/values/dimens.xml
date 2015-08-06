@@ -17,8 +17,24 @@
     <dimen name="sm_width">250dp</dimen>
     <dimen name="sm_avatar_width">72dp</dimen>
     <dimen name="sm_item_height">56dp</dimen>
+    <dimen name="sm_item_icon_size">32dp</dimen>
     <!--SlidingMenu文字大小-->
     <dimen name="sm_text_size_user_name">18sp</dimen>
-    <dimen name="sm_text_size_motto">16sp</dimen>
+    <dimen name="sm_text_size_motto">14sp</dimen>
     <dimen name="sm_text_size_item">18sp</dimen>
+
+    <!--ActivityLogIn-->
+    <dimen name="login_et_height">56dp</dimen>
+
+    <!--ActivityRegister-->
+    <dimen name="register_et_height">56dp</dimen>
+    <dimen name="register_et_width">300dp</dimen>
+    <dimen name="register_card_view_height">150dp</dimen>
+    <dimen name="register_btn_commit_width">250dp</dimen>
+
+    <!--ActivityUserInfo-->
+    <dimen name="user_info_avatar_size">72dp</dimen>
+    <dimen name="user_info_text_size_big">20dp</dimen>
+    <dimen name="user_info_text_size_small">18dp</dimen>
+    <dimen name="user_info_card_view_radius">4dp</dimen>
 </resources>

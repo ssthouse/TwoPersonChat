@@ -104,15 +104,5 @@ public class ActivityRegister extends AppCompatActivity {
                 });
              }
         });
-
-        //登陆按钮---跳转到登陆界面
-        findViewById(R.id.id_btn_log_in).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                PreferenceHelper.setIsFistIn(ActivityRegister.this, false);
-                ActivityLogin.start(ActivityRegister.this);
-            }
-        });
     }
 }

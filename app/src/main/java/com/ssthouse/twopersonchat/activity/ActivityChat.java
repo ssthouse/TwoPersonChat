@@ -4,17 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 
-import com.ssthouse.twopersonchat.R;
-import com.ssthouse.twopersonchat.style.TransparentStyle;
+import com.avos.avoscloud.AVUser;
+import com.ssthouse.twopersonchat.lib.BaseChatActivity;
 import com.ssthouse.twopersonchat.util.PreferenceHelper;
 import com.ssthouse.twopersonchat.util.ViewHelper;
 
 /**
  * Created by ssthouse on 2015/8/5.
  */
-public class ActivityChat extends AppCompatActivity {
+public class ActivityChat extends BaseChatActivity {
 
     public static void start(Activity activity){
         activity.startActivity(new Intent(activity, ActivityChat.class));
@@ -23,8 +22,7 @@ public class ActivityChat extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_chat);
-        TransparentStyle.setAppToTransparentStyle(this, getResources().getColor(R.color.color_primary_dark));
+
 
         initView();
     }
@@ -32,5 +30,17 @@ public class ActivityChat extends AppCompatActivity {
     private void initView(){
         ActionBar actionBar = getSupportActionBar();
         ViewHelper.initActionBar(this, actionBar, PreferenceHelper.getBindingName(this));
+    }
+
+    @Override
+    public AVUser getMeUser() {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public AVUser getTaUser() {
+        //TODO
+        return null;
     }
 }

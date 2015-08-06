@@ -52,7 +52,9 @@
     </LinearLayout>
 
     <!--SlidingMenu-->
-    <include layout="@layout/fragment_sliding_container"
+    <FrameLayout
+        android:orientation="vertical"
+        android:id="@+id/id_sm_container"
         android:layout_width="@dimen/sm_width"
         android:layout_height="match_parent"
         android:layout_gravity="left"/>
