@@ -22,6 +22,7 @@ import com.ssthouse.twopersonchat.util.ToastHelper;
 import com.ssthouse.twopersonchat.util.ViewHelper;
 
 /**
+ * 注册Activity
  * Created by ssthouse on 2015/8/4.
  */
 public class ActivityRegister extends AppCompatActivity {
@@ -31,9 +32,8 @@ public class ActivityRegister extends AppCompatActivity {
 
     private EditText etUserName;
     private EditText etPassword;
-    private Button btnRegister;
 
-    public static void start(Activity activity){
+    public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, ActivityRegister.class));
 //        LogHelper.Log(TAG, "我进入了---registerActivity");
     }
@@ -48,14 +48,14 @@ public class ActivityRegister extends AppCompatActivity {
         initView();
     }
 
-    private void initView(){
+    private void initView() {
         ActionBar actionBar = getSupportActionBar();
         ViewHelper.initActionBar(this, actionBar, "注册");
 
         etUserName = (EditText) findViewById(R.id.id_et_username);
         etPassword = (EditText) findViewById(R.id.id_et_password);
         //注册按钮点击事件
-        btnRegister = (Button) findViewById(R.id.id_btn_register);
+        Button btnRegister = (Button) findViewById(R.id.id_btn_register);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +65,7 @@ public class ActivityRegister extends AppCompatActivity {
                     return;
                 }
                 //判断输入是不是合法
-                if (TextUtils.isEmpty(etUserName.getText()) || TextUtils.isEmpty(etPassword.getText())){
+                if (TextUtils.isEmpty(etUserName.getText()) || TextUtils.isEmpty(etPassword.getText())) {
                     ToastHelper.showSnack(ActivityRegister.this, etUserName, "用户名或密码不合法");
                     return;
                 }
@@ -74,35 +74,35 @@ public class ActivityRegister extends AppCompatActivity {
                 //尝试登陆
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(AVException e) {
-                    if (e == null) {
-                        // successfully
-                        PreferenceHelper.setIsFistIn(ActivityRegister.this, false);
-                        ToastHelper.showSnack(ActivityRegister.this,etUserName, "注册成功!");
-                        //TODO---自动登陆---并跳转
-                        final String userName = etUserName.getText().toString();
-                        final String passWord = etPassword.getText().toString();
-                        AVUser.logInInBackground(userName, passWord,
-                            new LogInCallback<AVUser>() {
-                                @Override
-                                public void done(AVUser avUser, AVException e) {
-                                    if (avUser != null) {
-                                        // 登录成功
-                                        PreferenceHelper.LogIn(ActivityRegister.this, userName, passWord);
-                                        ActivityMain.start(ActivityRegister.this);
-                                        finish();
-                                    } else {
-                                        // 登录失败
-                                        ToastHelper.showToast(ActivityRegister.this, "登陆失败");
-                                    }
-                                }
-                            });
-                    } else {
-                        // failed
-                        ToastHelper.showSnack(ActivityRegister.this, etUserName, "抱歉,当前用户名已被注册!");
-                    }
+                        if (e == null) {
+                            // successfully
+                            PreferenceHelper.setIsFistIn(ActivityRegister.this, false);
+                            ToastHelper.showSnack(ActivityRegister.this, etUserName, "注册成功!");
+                            //TODO---自动登陆---并跳转
+                            final String userName = etUserName.getText().toString();
+                            final String passWord = etPassword.getText().toString();
+                            AVUser.logInInBackground(userName, passWord,
+                                    new LogInCallback<AVUser>() {
+                                        @Override
+                                        public void done(AVUser avUser, AVException e) {
+                                            if (avUser != null) {
+                                                // 登录成功
+                                                PreferenceHelper.LogIn(ActivityRegister.this, userName, passWord);
+                                                ActivityMain.start(ActivityRegister.this);
+                                                finish();
+                                            } else {
+                                                // 登录失败
+                                                ToastHelper.showToast(ActivityRegister.this, "登陆失败");
+                                            }
+                                        }
+                                    });
+                        } else {
+                            // failed
+                            ToastHelper.showSnack(ActivityRegister.this, etUserName, "抱歉,当前用户名已被注册!");
+                        }
                     }
                 });
-             }
+            }
         });
     }
 }

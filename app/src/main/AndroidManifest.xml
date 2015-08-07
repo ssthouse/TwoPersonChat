@@ -50,6 +50,9 @@
         <activity android:name=".activity.ActivitySetting"/>
         <activity android:name=".activity.ActivityUserInfo"/>
 
+        <!--测试-->
+        <activity android:name=".test.ActivityTest"/>
+
     </application>
 
 </manifest>

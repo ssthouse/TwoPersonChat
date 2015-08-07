@@ -22,7 +22,7 @@ android {
 dependencies {
     provided fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.1'
-    //meterial design 支持库
+    //material design 支持库
     compile 'com.android.support:design:22.2.1'
     //lena-cloud库
     compile files('libs/android-async-http-1.4.6.jar')
@@ -44,4 +44,6 @@ dependencies {
     //material design dialog
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.sd6352051.niftydialogeffects:niftydialogeffects:1.0.0@aar'
+    //异步网络图片加载
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

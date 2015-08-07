@@ -24,6 +24,7 @@ import com.ssthouse.twopersonchat.fragment.FragmentChat;
 import com.ssthouse.twopersonchat.fragment.FragmentRecord;
 import com.ssthouse.twopersonchat.fragment.FragmentSliding;
 import com.ssthouse.twopersonchat.style.TransparentStyle;
+import com.ssthouse.twopersonchat.util.FileHelper;
 import com.ssthouse.twopersonchat.util.PreferenceHelper;
 import com.ssthouse.twopersonchat.util.ToastHelper;
 import com.ssthouse.twopersonchat.util.ViewHelper;
@@ -62,6 +63,9 @@ public class ActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TransparentStyle.setAppToTransparentStyle(this, getResources().getColor(R.color.color_primary_dark));
+
+        //TODO----test
+        FileHelper.initAppDirectory(this);
 
         //判断是否是第一次
         if (PreferenceHelper.isFistIn(this)) {

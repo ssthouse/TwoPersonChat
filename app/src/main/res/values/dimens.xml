@@ -37,4 +37,8 @@
     <dimen name="user_info_text_size_big">20dp</dimen>
     <dimen name="user_info_text_size_small">18dp</dimen>
     <dimen name="user_info_card_view_radius">4dp</dimen>
+
+    <!--Dialog相册或图库-->
+    <dimen name="dialog_choose_avatar_text_size">20sp</dimen>
+    <dimen name="dialog_choose_avatar_item_height">56dp</dimen>
 </resources>

@@ -1,123 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
 
         <!--头像-->
         <ImageView
             android:id="@+id/id_iv_avatar"
-            android:layout_margin="12dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/avatar_boy"
             android:layout_width="@dimen/user_info_avatar_size"
-            android:layout_height="@dimen/user_info_avatar_size" />
+            android:layout_height="@dimen/user_info_avatar_size"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="12dp"
+            android:src="@drawable/avatar_boy" />
 
         <!--用户名-->
         <android.support.v7.widget.CardView
-            app:cardCornerRadius="@dimen/user_info_card_view_radius"
-            app:cardBackgroundColor="@color/white"
-            android:layout_margin="8dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/user_info_card_view_radius">
 
             <TextView
-                android:textColor="@color/black"
-                android:layout_margin="12dp"
                 android:id="@+id/id_tv_user_name"
-                android:textSize="@dimen/user_info_text_size_big"
-                android:text="ssthouse"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="12dp"
+                android:text="ssthouse"
+                android:textColor="@color/black"
+                android:textSize="@dimen/user_info_text_size_big" />
         </android.support.v7.widget.CardView>
 
         <!--性别-->
         <LinearLayout
-            android:background="@color/white"
-            android:layout_margin="12dp"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:layout_margin="12dp"
+            android:background="@color/white"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/id_tv_boy"
-                android:textSize="@dimen/user_info_text_size_big"
-                android:text="男"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:layout_weight="1"/>
+                android:text="男"
+                android:textSize="@dimen/user_info_text_size_big" />
 
             <TextView
                 android:id="@+id/id_tv_girl"
-                android:textSize="@dimen/user_info_text_size_big"
-                android:text="女"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:layout_weight="1"/>
+                android:text="女"
+                android:textSize="@dimen/user_info_text_size_big" />
         </LinearLayout>
 
         <!--我的宣言-->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_margin="12dp"
-            android:textSize="@dimen/user_info_text_size_small"
             android:layout_height="wrap_content"
-            android:text="我的宣言"/>
+            android:layout_margin="12dp"
+            android:text="我的宣言"
+            android:textSize="@dimen/user_info_text_size_small" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/id_cv_motto"
-            app:cardCornerRadius="@dimen/user_info_card_view_radius"
-            app:cardBackgroundColor="@color/white"
-            android:layout_margin="8dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/user_info_card_view_radius">
 
             <TextView
-                android:textColor="@color/black"
-                android:layout_margin="12dp"
                 android:id="@+id/id_tv_motto"
-                android:textSize="@dimen/user_info_text_size_big"
-                android:text="我就是我"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="12dp"
+                android:text="我就是我"
+                android:textColor="@color/black"
+                android:textSize="@dimen/user_info_text_size_big" />
         </android.support.v7.widget.CardView>
 
         <!--我的Ta-->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_margin="12dp"
-            android:textSize="@dimen/user_info_text_size_small"
             android:layout_height="wrap_content"
-            android:text="我的 Ta"/>
+            android:layout_margin="12dp"
+            android:text="我的 Ta"
+            android:textSize="@dimen/user_info_text_size_small" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/id_cv_binding_user_name"
-            app:cardCornerRadius="@dimen/user_info_card_view_radius"
-            app:cardBackgroundColor="@color/white"
-            android:layout_margin="8dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/user_info_card_view_radius">
 
             <TextView
-                android:textColor="@color/black"
-                android:layout_margin="12dp"
                 android:id="@+id/id_tv_binding_user_name"
-                android:textSize="@dimen/user_info_text_size_big"
-                android:text="Ta"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="12dp"
+                android:text="Ta"
+                android:textColor="@color/black"
+                android:textSize="@dimen/user_info_text_size_big" />
         </android.support.v7.widget.CardView>
     </LinearLayout>
 
