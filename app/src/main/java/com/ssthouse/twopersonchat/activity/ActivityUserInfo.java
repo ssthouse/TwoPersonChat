@@ -17,6 +17,7 @@ import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.ssthouse.twopersonchat.R;
 import com.ssthouse.twopersonchat.style.TransparentStyle;
 import com.ssthouse.twopersonchat.util.FileHelper;
+import com.ssthouse.twopersonchat.util.LogHelper;
 import com.ssthouse.twopersonchat.util.PictureHelper;
 import com.ssthouse.twopersonchat.util.ViewHelper;
 
@@ -58,6 +59,12 @@ public class ActivityUserInfo extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.id_cv_user_name).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogHelper.Log(TAG, "我点到了CardView");
+            }
+        });
     }
 
     private void showAlbumOrCameraDialog(){
@@ -113,6 +120,7 @@ public class ActivityUserInfo extends AppCompatActivity {
                 }
                 break;
             case REQUEST_CAMERA:
+                //TODO---应该是可以直接填充上去的
 //                Picasso.with(this).load(new File(FileHelper.AVATAR_PATH_AND_NAME))
 //                        .
 //                        .into(ivAvatar);

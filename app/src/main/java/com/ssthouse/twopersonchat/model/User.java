@@ -1,5 +1,6 @@
 package com.ssthouse.twopersonchat.model;
 
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 
 import java.util.Date;
@@ -28,6 +29,10 @@ public class User extends AVUser {
     private static final String IS_BOY = "isBoy";
     private boolean isBoy = true;
 
+    //Avatar
+    public static final String AVATAR = "avatar";
+    private AVFile avatar;
+
 
     //出生日期
     public void setBornDate(Date date) {
@@ -36,6 +41,15 @@ public class User extends AVUser {
 
     public Date getBornDate() {
         return (Date) get(BORN_DATE);
+    }
+
+    //Avatar
+    public void setAvatar(AVFile avatar){
+        this.put(AVATAR, avatar);
+    }
+
+    public AVFile getAvatar(){
+        return this.getAVFile(AVATAR);
     }
 
     //性别
