@@ -6,21 +6,21 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/chatBottomLeftLayout"
+        android:id="@+id/id_ll_chat_up_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical">
 
         <Button
-            android:id="@+id/showAddBtn"
+            android:id="@+id/id_btn_show_more"
             android:layout_width="@dimen/chat_btn_size"
             android:layout_height="@dimen/chat_btn_size"
             android:layout_margin="@dimen/chat_btn_margin"
             android:background="@drawable/chat_btn_add_selector" />
 
         <Button
-            android:id="@+id/showEmotionBtn"
+            android:id="@+id/id_btn_show_emotion"
             android:layout_width="@dimen/chat_btn_size"
             android:layout_height="@dimen/chat_btn_size"
             android:layout_margin="@dimen/chat_btn_margin"

@@ -5,7 +5,7 @@
     android:orientation="horizontal">
 
     <com.ssthouse.twopersonchat.lib.view.EmotionEditText
-        android:id="@+id/textEdit"
+        android:id="@+id/id_et_msg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -25,7 +25,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/sendBtn"
+            android:id="@+id/id_btn_send_msg"
             android:layout_width="@dimen/chat_btn_size"
             android:layout_height="@dimen/chat_btn_size"
             android:layout_margin="@dimen/chat_btn_margin"
@@ -35,7 +35,7 @@
             android:visibility="visible" />
 
         <Button
-            android:id="@+id/turnToAudioBtn"
+            android:id="@+id/id_btn_turn_2_voice"
             android:layout_width="@dimen/chat_btn_size"
             android:layout_height="@dimen/chat_btn_size"
             android:layout_gravity="center_vertical"
