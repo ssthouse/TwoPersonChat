@@ -3,12 +3,11 @@ package com.ssthouse.twopersonchat.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 
-import com.avos.avoscloud.AVUser;
+import com.ssthouse.twopersonchat.R;
 import com.ssthouse.twopersonchat.lib.BaseChatActivity;
+import com.ssthouse.twopersonchat.style.TransparentStyle;
 import com.ssthouse.twopersonchat.util.PreferenceHelper;
-import com.ssthouse.twopersonchat.util.ViewHelper;
 
 /**
  * Created by ssthouse on 2015/8/5.
@@ -22,25 +21,21 @@ public class ActivityChat extends BaseChatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        TransparentStyle.setAppToTransparentStyle(this, getResources().getColor(R.color.color_primary_dark));
 
         initView();
     }
 
     private void initView(){
-        ActionBar actionBar = getSupportActionBar();
-        ViewHelper.initActionBar(this, actionBar, PreferenceHelper.getBindingName(this));
     }
 
     @Override
-    public AVUser getMeUser() {
-        //TODO
-        return null;
+    public String getMyName() {
+        return PreferenceHelper.getUserName(this);
     }
 
     @Override
-    public AVUser getTaUser() {
-        //TODO
-        return null;
+    public String getTaName() {
+        return PreferenceHelper.getBindingName(this);
     }
 }

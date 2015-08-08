@@ -23,7 +23,6 @@ import com.ssthouse.twopersonchat.fragment.FragmentChat;
 import com.ssthouse.twopersonchat.fragment.FragmentRecord;
 import com.ssthouse.twopersonchat.fragment.FragmentSliding;
 import com.ssthouse.twopersonchat.style.TransparentStyle;
-import com.ssthouse.twopersonchat.util.LogHelper;
 import com.ssthouse.twopersonchat.util.PreferenceHelper;
 import com.ssthouse.twopersonchat.util.ToastHelper;
 import com.ssthouse.twopersonchat.util.ViewHelper;
@@ -31,7 +30,7 @@ import com.ssthouse.twopersonchat.util.ViewHelper;
 public class ActivityMain extends AppCompatActivity {
     private static final String TAG = "ActivityMain";
 
-    private static final int SM_ID = Integer.MAX_VALUE -100;
+    private static final int SM_ID = Integer.MAX_VALUE - 100;
 
     public static final int REQUEST_RGISTER = 1001;
     public static final int REQUEST_LOG_IN = 1002;
@@ -142,8 +141,7 @@ public class ActivityMain extends AppCompatActivity {
         });
     }
 
-    private void initSlidingMenu()
-    {
+    private void initSlidingMenu() {
         //找到drawer控件
         smContainer = (FrameLayout) findViewById(R.id.id_sm_container);
         //添加SlidingMenu
@@ -163,11 +161,11 @@ public class ActivityMain extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
-                if(drawerLayout.isDrawerOpen(smContainer)) {
+                if (drawerLayout.isDrawerOpen(smContainer)) {
                     drawerLayout.closeDrawer(smContainer);
-                }else{
+                } else {
                     drawerLayout.openDrawer(smContainer);
                 }
                 break;
@@ -196,17 +194,18 @@ public class ActivityMain extends AppCompatActivity {
 
     /**
      * FragmentFindHer的回调
+     *
      * @param requestCode
      * @param resultCode
      * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_USER_INFO:
                 //刷新视图
                 fragmentSliding.inflateView();
-                LogHelper.Log(TAG, "我刷新了VIew");
+//                LogHelper.Log(TAG, "我刷新了VIew");
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
