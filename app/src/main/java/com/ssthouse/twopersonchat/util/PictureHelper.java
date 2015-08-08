@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -51,6 +52,33 @@ public class PictureHelper {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");//相片类型
         activity.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 将图片保存到指定的目录
+     *
+     * @param photo
+     * @param savePath
+     * @return
+     */
+    public static boolean saveImage(Bitmap photo, String savePath) {
+        try {
+            File file = new File(savePath);
+            file.getParentFile().mkdirs();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            BufferedOutputStream bos = new BufferedOutputStream(
+                    new FileOutputStream(savePath, false));
+            photo.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogHelper.Log(TAG, "something is wrong");
+            return false;
+        }
+        return true;
     }
 
     /**

@@ -26,25 +26,56 @@ public class PreferenceHelper {
     private static final String IS_BINDING = "isBinding";
     private static final String TA_USER_NAME = "taUserName";
 
-    public static boolean isBinding(Context context){
+    //isBoy---是不是男的
+    private static final String IS_BOY = "isBoy";
+
+    public static boolean isBoy(Context context) {
+        initSharedPreference(context);
+        return sharedPreferences.getBoolean(IS_BOY, true);
+    }
+
+    public static void setIsBoy(Context context, boolean isBoy) {
+        initSharedPreference(context);
+        initEditor(context);
+        editor.putBoolean(IS_BOY, isBoy);
+        editor.commit();
+    }
+
+
+    //Motto---宣言
+    private static final String MOTTO = "motto";
+
+    public static String getMotto(Context context){
+        initSharedPreference(context);
+        return sharedPreferences.getString(MOTTO, "我的宣言");
+    }
+
+    public static void setMotto(Context context, String motto){
+        initSharedPreference(context);
+        initEditor(context);
+        editor.putString(MOTTO, motto);
+        editor.commit();
+    }
+
+    public static boolean isBinding(Context context) {
         initSharedPreference(context);
         return sharedPreferences.getBoolean(IS_BINDING, false);
     }
 
-    public static void setIsBinding(Context context, boolean isBinded){
+    public static void setIsBinding(Context context, boolean isBinded) {
         initSharedPreference(context);
         initEditor(context);
         editor.putBoolean(IS_BINDING, isBinded);
         editor.commit();
     }
 
-    public static String getBindingName(Context context){
+    public static String getBindingName(Context context) {
         initSharedPreference(context);
         return sharedPreferences.getString(TA_USER_NAME, "");
     }
 
-    public static void setBinding(Context context, String taUserName){
-        if(context == null || taUserName == null){
+    public static void setBinding(Context context, String taUserName) {
+        if (context == null || taUserName == null) {
             return;
         }
         initSharedPreference(context);
@@ -139,5 +170,4 @@ public class PreferenceHelper {
             editor = sharedPreferences.edit();
         }
     }
-
 }

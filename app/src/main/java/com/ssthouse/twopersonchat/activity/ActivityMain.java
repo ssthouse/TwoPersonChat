@@ -3,7 +3,6 @@ package com.ssthouse.twopersonchat.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -24,7 +23,7 @@ import com.ssthouse.twopersonchat.fragment.FragmentChat;
 import com.ssthouse.twopersonchat.fragment.FragmentRecord;
 import com.ssthouse.twopersonchat.fragment.FragmentSliding;
 import com.ssthouse.twopersonchat.style.TransparentStyle;
-import com.ssthouse.twopersonchat.util.FileHelper;
+import com.ssthouse.twopersonchat.util.LogHelper;
 import com.ssthouse.twopersonchat.util.PreferenceHelper;
 import com.ssthouse.twopersonchat.util.ToastHelper;
 import com.ssthouse.twopersonchat.util.ViewHelper;
@@ -34,9 +33,10 @@ public class ActivityMain extends AppCompatActivity {
 
     private static final int SM_ID = Integer.MAX_VALUE -100;
 
-    private static int REQUEST_RGISTER = 1001;
-    private static int REQUEST_LOG_IN = 1002;
-    private static int REQUEST_FIND_HER = 1003;
+    public static final int REQUEST_RGISTER = 1001;
+    public static final int REQUEST_LOG_IN = 1002;
+    public static final int REQUEST_FIND_HER = 1003;
+    public static final int REQUEST_USER_INFO = 1004;
 
     /**
      * 没网的LinearLayout
@@ -46,7 +46,6 @@ public class ActivityMain extends AppCompatActivity {
     private FragmentChat fragmentChat;
     private FragmentRecord fragmentRecord;
 
-    private View drawerView;
     private DrawerLayout drawerLayout;
     private FrameLayout smContainer;
     private FragmentSliding fragmentSliding;
@@ -64,8 +63,8 @@ public class ActivityMain extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TransparentStyle.setAppToTransparentStyle(this, getResources().getColor(R.color.color_primary_dark));
 
-        //TODO----test
-        FileHelper.initAppDirectory(this);
+        //TODO----test---应该放到第一次运行里面
+//        FileHelper.initAppDirectory(this);
 
         //判断是否是第一次
         if (PreferenceHelper.isFistIn(this)) {
@@ -102,7 +101,6 @@ public class ActivityMain extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         ViewHelper.initActionBar(this, actionBar, "MainActivity");
         actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setHomeAsUpIndicator(R.drawable.icon_menu);
 
         //有没有网
         llNoInternet = (LinearLayout) findViewById(R.id.id_ll_no_internet);
@@ -154,28 +152,6 @@ public class ActivityMain extends AppCompatActivity {
                 .commit();
         //找到DrawerLayout
         drawerLayout = (DrawerLayout) findViewById(R.id.id_drawer_layout);
-        //设置监听器
-        android.support.v4.app.ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                drawerLayout,         /* DrawerLayout object */
-                R.mipmap.ic_launcher,  /* nav drawer image to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
-        ) {
-            public void onDrawerClosed(View view) {
-            }
-            public void onDrawerOpened(View drawerView) {
-            }
-
-            @Override
-            public void onDrawerSlide(View inDrawerView, float slideOffset) {
-                super.onDrawerSlide(inDrawerView, slideOffset);
-//                drawerView.setRotation(slideOffset * 90);
-//                drawerView.setScaleX(0.5f * slideOffset);
-//                drawerView.setScaleY(0.5f * slideOffset);
-            }
-        };
-        drawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     @Override
@@ -226,6 +202,13 @@ public class ActivityMain extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_USER_INFO:
+                //刷新视图
+                fragmentSliding.inflateView();
+                LogHelper.Log(TAG, "我刷新了VIew");
+                break;
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

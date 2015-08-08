@@ -33,7 +33,7 @@
     <dimen name="register_btn_commit_width">250dp</dimen>
 
     <!--ActivityUserInfo-->
-    <dimen name="user_info_avatar_size">72dp</dimen>
+    <dimen name="user_info_avatar_size">84dp</dimen>
     <dimen name="user_info_text_size_big">20dp</dimen>
     <dimen name="user_info_text_size_small">18dp</dimen>
     <dimen name="user_info_card_view_radius">4dp</dimen>

@@ -69,5 +69,4 @@ public class User extends AVUser {
     public String getMotto(){
         return this.getString(MOTTO);
     }
-
 }

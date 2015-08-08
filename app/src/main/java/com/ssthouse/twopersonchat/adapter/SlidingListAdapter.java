@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ssthouse.twopersonchat.R;
+import com.ssthouse.twopersonchat.activity.ActivityMain;
 import com.ssthouse.twopersonchat.activity.ActivitySetting;
 import com.ssthouse.twopersonchat.activity.ActivityUserInfo;
 
@@ -58,7 +59,7 @@ public class SlidingListAdapter extends BaseAdapter {
                 ll.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ActivityUserInfo.start((Activity) context);
+                        ActivityUserInfo.startForResult((Activity) context, ActivityMain.REQUEST_USER_INFO);
                     }
                 });
                 convertView = ll;

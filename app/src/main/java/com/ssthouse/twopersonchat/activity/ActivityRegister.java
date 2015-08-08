@@ -31,6 +31,7 @@ import com.ssthouse.twopersonchat.util.ViewHelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * 注册Activity
@@ -44,7 +45,7 @@ public class ActivityRegister extends AppCompatActivity {
     private EditText etUserName;
     private EditText etPassword;
 
-    private NiftyDialogBuilder dialogBuilder;;
+    private NiftyDialogBuilder dialogBuilder;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, ActivityRegister.class));
@@ -111,6 +112,9 @@ public class ActivityRegister extends AppCompatActivity {
                         user.setAvatar(avFile);
                         user.setUsername(etUserName.getText().toString());
                         user.setPassword(etPassword.getText().toString());
+                        user.setIsBoy(true);
+                        user.setMotto("我的宣言");
+                        user.setBornDate(new Date());
                         //尝试注册
                         user.signUpInBackground(new SignUpCallback() {
                             public void done(AVException e) {
