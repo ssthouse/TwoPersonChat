@@ -2,13 +2,14 @@ package com.ssthouse.twopersonchat.lib;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
@@ -20,6 +21,7 @@ import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.ssthouse.twopersonchat.R;
+import com.ssthouse.twopersonchat.lib.view.EmotionEditText;
 import com.ssthouse.twopersonchat.style.TransparentStyle;
 import com.ssthouse.twopersonchat.util.LogHelper;
 import com.ssthouse.twopersonchat.util.ViewHelper;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 聊天的父类Activity
  * Created by ssthouse on 2015/8/6.
  */
 public abstract class BaseChatActivity extends AppCompatActivity
@@ -38,18 +41,30 @@ public abstract class BaseChatActivity extends AppCompatActivity
 
     private String myName;
     private String taName;
-
     public abstract String getMyName();
-
     public abstract String getTaName();
 
     private AVIMClient avimClient;
     private AVIMConversation conversation;
 
+    //刷新View
     private SwipeRefreshLayout swipeRefreshLayout;
+    //展示内容的ListView
     private ListView lv;
-    private EditText etMsg;
+    //一直在的输入按钮
+    private Button btnMore;
+    private Button btnEmotion;
+    //Emotion的pager
+    private ViewPager vpEmotion;
+    //一直在----add more
+    private TextView btnAddPicture, btnAddCamera, btnAddLocation;
+    //文字输入
+    private EmotionEditText et;
     private Button btnSendMsg;
+    private Button btnTurn2Voice;
+    //语音输入
+    private Button btnRecord;
+    private Button btnTurn2Text;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,23 +76,22 @@ public abstract class BaseChatActivity extends AppCompatActivity
         myName = getMyName();
         taName = getTaName();
 
-
-        //建立连接
+        //TODO---建立连接
         avimClient = AVIMClient.getInstance(myName);
         avimClient.open(new AVIMClientCallback() {
             @Override
             public void done(AVIMClient avimClient, AVIMException e) {
                 if (e == null) {
                     LogHelper.Log(TAG, "我登录成功");
-                    creatConversation();
+                    createConversation();
                 } else {
                     LogHelper.Log(TAG, "wrong 0");
                 }
             }
         });
 
-
-        //创建---消息接收器
+        //好像也要放在application中
+        //TODO---创建---消息接收器
         AVIMMessageManager.registerDefaultMessageHandler(new AVIMMessageHandler() {
             @Override
             public void onMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client) {
@@ -90,11 +104,29 @@ public abstract class BaseChatActivity extends AppCompatActivity
         initView();
     }
 
+    //发送---其他消息的监听器
+    private View.OnClickListener addMoreListener = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+
+    //emotion的监听器
+    private View.OnClickListener emotionListener = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+
     private void initView() {
         ActionBar actionBar = getSupportActionBar();
         ViewHelper.initActionBar(this, actionBar, taName);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.id_swipe_refresh);
+        //刷新View
         swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_light);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -112,10 +144,26 @@ public abstract class BaseChatActivity extends AppCompatActivity
             }
         });
 
+        //主ListView
         lv = (ListView) findViewById(R.id.id_lv);
 
-        etMsg = (EditText) findViewById(R.id.id_et_msg);
+        //一直在的输入按钮
+        btnMore = (Button) findViewById(R.id.id_btn_show_more);
+        btnEmotion = (Button) findViewById(R.id.id_btn_show_emotion);
 
+        //Emotion的pager
+        vpEmotion = (ViewPager) findViewById(R.id.id_vp_emotion);
+
+        //一直在的表情---其他信息
+        btnAddPicture = (TextView) findViewById(R.id.id_btn_add_picture);
+        btnAddCamera = (TextView) findViewById(R.id.id_btn_add_camera);
+        btnAddLocation = (TextView) findViewById(R.id.id_btn_add_location);
+        btnAddPicture.setOnClickListener(addMoreListener);
+        btnAddCamera.setOnClickListener(addMoreListener);
+        btnAddLocation.setOnClickListener(addMoreListener);
+
+        //文字输入
+        et = (EmotionEditText) findViewById(R.id.id_et_msg);
         btnSendMsg = (Button) findViewById(R.id.id_btn_send_msg);
         btnSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,8 +172,21 @@ public abstract class BaseChatActivity extends AppCompatActivity
                 sendTextMsg();
             }
         });
+        btnTurn2Voice = (Button) findViewById(R.id.id_btn_turn_2_voice);
+
+        //语音输入
+        btnRecord = (Button) findViewById(R.id.id_btn_record);
+        btnTurn2Text = (Button) findViewById(R.id.id_btn_turn_2_text);
     }
 
+    private void inflateEmotionPager(){
+
+    }
+
+    /**
+     * TODO
+     * 发送文字消息
+     */
     public void sendTextMsg() {
         AVIMMessage message = new AVIMMessage();
         message.setContent("hello");
@@ -143,7 +204,11 @@ public abstract class BaseChatActivity extends AppCompatActivity
         });
     }
 
-    public void creatConversation() {
+    /**
+     * TODO---好像应该放到application中
+     * 创建对话
+     */
+    public void createConversation() {
         //创建房间
         List<String> clientIds = new ArrayList<String>();
         clientIds.add(myName);

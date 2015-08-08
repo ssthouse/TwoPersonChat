@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/id_ll_chat_input_text"
     android:orientation="horizontal">
 
     <com.ssthouse.twopersonchat.lib.view.EmotionEditText
@@ -32,7 +33,7 @@
             android:background="@drawable/chat_btn_send_selector"
             android:gravity="center"
             android:textColor="#000"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/id_btn_turn_2_voice"
