@@ -1,11 +1,14 @@
 package com.ssthouse.twopersonchat.lib;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
@@ -29,7 +32,8 @@ import java.util.Map;
 /**
  * Created by ssthouse on 2015/8/6.
  */
-public abstract class BaseChatActivity extends AppCompatActivity {
+public abstract class BaseChatActivity extends AppCompatActivity
+        implements ChatActivityEventListener {
     private static final String TAG = "BaseChatActivity";
 
     private String myName;
@@ -42,6 +46,8 @@ public abstract class BaseChatActivity extends AppCompatActivity {
     private AVIMClient avimClient;
     private AVIMConversation conversation;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ListView lv;
     private EditText etMsg;
     private Button btnSendMsg;
 
@@ -88,6 +94,26 @@ public abstract class BaseChatActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         ViewHelper.initActionBar(this, actionBar, taName);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.id_swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_light);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //TODO
+                swipeRefreshLayout.setRefreshing(true);
+                LogHelper.Log(TAG, "i am refresh ing");
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 3000);
+                LogHelper.Log(TAG, "我的监听器起作用了");
+            }
+        });
+
+        lv = (ListView) findViewById(R.id.id_lv);
+
         etMsg = (EditText) findViewById(R.id.id_et_msg);
 
         btnSendMsg = (Button) findViewById(R.id.id_btn_send_msg);
@@ -117,7 +143,7 @@ public abstract class BaseChatActivity extends AppCompatActivity {
         });
     }
 
-    public void creatConversation(){
+    public void creatConversation() {
         //创建房间
         List<String> clientIds = new ArrayList<String>();
         clientIds.add(myName);

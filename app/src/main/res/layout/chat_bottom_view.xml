@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+    <!--分割线-->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/light_gray"
+        android:focusable="false" />
+
+    <!--表情-->
+    <include layout="@layout/chat_bottom_emotion" />
+
+    <!--更多-->
+    <include layout="@layout/chat_bottom_more" />
+
+</LinearLayout>
