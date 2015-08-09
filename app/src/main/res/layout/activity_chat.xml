@@ -19,24 +19,6 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:layout_weight="1"
-            android:id="@+id/id_et_msg"
-            android:layout_width="0dp"
-            android:layout_height="56dp" />
-
-        <Button
-            android:id="@+id/id_btn_send_msg"
-            android:text="发送"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
     <include layout="@layout/chat_up_view"/>
 
     <include layout="@layout/chat_bottom_view"/>

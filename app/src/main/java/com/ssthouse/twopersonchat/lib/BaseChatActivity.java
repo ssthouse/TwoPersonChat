@@ -21,6 +21,7 @@ import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.ssthouse.twopersonchat.R;
+import com.ssthouse.twopersonchat.lib.adapter.EmotionAdapter;
 import com.ssthouse.twopersonchat.lib.view.EmotionEditText;
 import com.ssthouse.twopersonchat.style.TransparentStyle;
 import com.ssthouse.twopersonchat.util.LogHelper;
@@ -127,6 +128,7 @@ public abstract class BaseChatActivity extends AppCompatActivity
         ViewHelper.initActionBar(this, actionBar, taName);
 
         //刷新View
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.id_swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.color_primary_light);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -147,12 +149,15 @@ public abstract class BaseChatActivity extends AppCompatActivity
         //主ListView
         lv = (ListView) findViewById(R.id.id_lv);
 
+        et = (EmotionEditText) findViewById(R.id.id_et_msg);
+
         //一直在的输入按钮
         btnMore = (Button) findViewById(R.id.id_btn_show_more);
         btnEmotion = (Button) findViewById(R.id.id_btn_show_emotion);
 
         //Emotion的pager
         vpEmotion = (ViewPager) findViewById(R.id.id_vp_emotion);
+        vpEmotion.setAdapter(new EmotionAdapter(this, et));
 
         //一直在的表情---其他信息
         btnAddPicture = (TextView) findViewById(R.id.id_btn_add_picture);
@@ -163,7 +168,6 @@ public abstract class BaseChatActivity extends AppCompatActivity
         btnAddLocation.setOnClickListener(addMoreListener);
 
         //文字输入
-        et = (EmotionEditText) findViewById(R.id.id_et_msg);
         btnSendMsg = (Button) findViewById(R.id.id_btn_send_msg);
         btnSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,10 +181,6 @@ public abstract class BaseChatActivity extends AppCompatActivity
         //语音输入
         btnRecord = (Button) findViewById(R.id.id_btn_record);
         btnTurn2Text = (Button) findViewById(R.id.id_btn_turn_2_text);
-    }
-
-    private void inflateEmotionPager(){
-
     }
 
     /**
