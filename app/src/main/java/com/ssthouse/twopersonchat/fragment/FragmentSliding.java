@@ -37,6 +37,7 @@ public class FragmentSliding extends Fragment {
         return view;
     }
 
+
     private void initView(View view) {
         //初始化User信息
         iv = (ImageView) view.findViewById(R.id.id_iv_avatar);

@@ -2,8 +2,11 @@ package com.ssthouse.twopersonchat.lib.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.text.Selection;
+import android.text.Spannable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.ssthouse.twopersonchat.R;
@@ -51,6 +54,23 @@ public class EmotionAdapter extends PagerAdapter {
         MyGridView gv = (MyGridView) ll.findViewById(R.id.id_gv);
 //        LogHelper.Log(TAG, "我添加了第   " + position + "  个Adapter");
         gv.setAdapter(new EmotionGridAdapter(context, position));
+        //TODO-----非常重要---emoji点击事件
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String emotionText = (String) parent.getAdapter().getItem(position);
+                int start = emotionEditText.getSelectionStart();
+                StringBuffer sb = new StringBuffer(emotionEditText.getText());
+                sb.replace(emotionEditText.getSelectionStart(), emotionEditText.getSelectionEnd(), emotionText);
+                emotionEditText.setText(sb.toString());
+
+                CharSequence info = emotionEditText.getText();
+                if (info instanceof Spannable) {
+                    Spannable spannable = (Spannable) info;
+                    Selection.setSelection(spannable, start + emotionText.length());
+                }
+            }
+        });
         return ll;
     }
 

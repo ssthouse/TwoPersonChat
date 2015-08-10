@@ -18,9 +18,9 @@ public class FragmentChat extends Fragment {
 
     private Context context;
 
-    public FragmentChat(Context context){
-        this.context = context;
-    }
+//    public FragmentChat(Context context){
+//        this.context = context;
+//    }
 
     @Nullable
     @Override
@@ -32,5 +32,9 @@ public class FragmentChat extends Fragment {
 
     private void initView(View view){
 
+    }
+
+    public static FragmentChat getInstance(){
+        return new FragmentChat();
     }
 }

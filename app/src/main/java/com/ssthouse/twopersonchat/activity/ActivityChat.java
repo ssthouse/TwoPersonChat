@@ -10,7 +10,6 @@ import com.avos.avoscloud.im.v2.messages.AVIMLocationMessage;
 import com.ssthouse.twopersonchat.R;
 import com.ssthouse.twopersonchat.lib.BaseChatActivity;
 import com.ssthouse.twopersonchat.style.TransparentStyle;
-import com.ssthouse.twopersonchat.util.PreferenceHelper;
 
 /**
  * Created by ssthouse on 2015/8/5.
@@ -31,16 +30,6 @@ public class ActivityChat extends BaseChatActivity {
 
     private void initView(){
 
-    }
-
-    @Override
-    public String getMyName() {
-        return PreferenceHelper.getUserName(this);
-    }
-
-    @Override
-    public String getTaName() {
-        return PreferenceHelper.getBindingName(this);
     }
 
     @Override

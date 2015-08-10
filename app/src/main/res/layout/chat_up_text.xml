@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/id_ll_chat_input_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/id_ll_chat_input_text"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     android:orientation="horizontal">
 
     <com.ssthouse.twopersonchat.lib.view.EmotionEditText
         android:id="@+id/id_et_msg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="bottom"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_weight="1"
         android:background="@drawable/chat_login_edit_normal"
-        android:singleLine="true"
+        android:singleLine="false"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -30,8 +28,8 @@
         <Button
             android:id="@+id/id_btn_send_msg"
             android:layout_width="@dimen/chat_btn_size"
+            android:layout_gravity="bottom"
             android:layout_height="@dimen/chat_btn_size"
-            android:layout_margin="@dimen/chat_btn_margin"
             android:background="@drawable/chat_btn_send_selector"
             android:gravity="center"
             android:textColor="#000"
@@ -41,8 +39,7 @@
             android:id="@+id/id_btn_turn_2_voice"
             android:layout_width="@dimen/chat_btn_size"
             android:layout_height="@dimen/chat_btn_size"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="@dimen/chat_btn_margin"
+            android:layout_gravity="bottom"
             android:background="@drawable/chat_btn_voice_selector"
             android:textColor="@color/light_black"
             android:visibility="visible" />

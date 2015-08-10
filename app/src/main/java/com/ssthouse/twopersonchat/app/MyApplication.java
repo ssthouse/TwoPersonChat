@@ -3,6 +3,12 @@ package com.ssthouse.twopersonchat.app;
 import android.app.Application;
 
 import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.im.v2.AVIMMessageManager;
+import com.avos.avoscloud.im.v2.AVIMTypedMessage;
+import com.ssthouse.twopersonchat.lib.util.ChatHelper;
+import com.ssthouse.twopersonchat.lib.util.MsgHandler;
+import com.ssthouse.twopersonchat.util.FileHelper;
+import com.ssthouse.twopersonchat.util.LogHelper;
 
 
 /**
@@ -15,8 +21,18 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        //初始化app数据
+        FileHelper.initAppDirectory(this);
+
         //初始化LeanCloud
         AVOSCloud.initialize(this, "axvboxrlkm8x0x5my5qsq7hrhkps6zkyu11pyash50earlgv",
                 "srs1nwco56zeolg88r082bo97ctyaym7reqd4xjyv9yehofo");
+
+        //初始时就接收消息
+        AVIMMessageManager.registerMessageHandler(AVIMTypedMessage.class, new MsgHandler(this));
+        LogHelper.Log("AppLication", "我注册好了监听器=====");
+
+        //建立连接
+        ChatHelper.openConnection(this);
     }
 }

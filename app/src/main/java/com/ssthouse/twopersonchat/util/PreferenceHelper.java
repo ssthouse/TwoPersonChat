@@ -14,48 +14,52 @@ public class PreferenceHelper {
     private static SharedPreferences.Editor editor;
     private static final String PREFERENCE = "preference";
 
+
     //是否第一次
     private static final String IS_FIST_IN = "isFistIn";
+    public static boolean isFistIn(Context context) {
+        initSharedPreference(context);
+        return sharedPreferences.getBoolean(IS_FIST_IN, true);
+    }
+
+    public static void setIsFistIn(Context context, boolean isFistIn) {
+        initSharedPreference(context);
+        initEditor(context);
+        editor.putBoolean(IS_FIST_IN, isFistIn);
+        editor.commit();
+    }
+
 
     //是否已经本地登陆
     private static final String IS_LOG_IN = "isLogIn";
     private static final String USER_NAME = "userName";
     private static final String PASS_WORD = "passWord";
 
+    public static boolean isLogIn(Context context) {
+        initSharedPreference(context);
+        return sharedPreferences.getBoolean(IS_LOG_IN, false);
+    }
+
+    public static void LogIn(Context context, String userName, String password) {
+        initSharedPreference(context);
+        initEditor(context);
+        editor.putBoolean(IS_LOG_IN, true);
+        editor.putString(USER_NAME, userName);
+        editor.putString(PASS_WORD, password);
+        editor.commit();
+    }
+
+    public static void LogOut(Context context) {
+        initSharedPreference(context);
+        initEditor(context);
+        editor.putBoolean(IS_LOG_IN, false);
+        editor.commit();
+    }
+
+
     //判断是否绑定Ta
     private static final String IS_BINDING = "isBinding";
     private static final String TA_USER_NAME = "taUserName";
-
-    //isBoy---是不是男的
-    private static final String IS_BOY = "isBoy";
-
-    public static boolean isBoy(Context context) {
-        initSharedPreference(context);
-        return sharedPreferences.getBoolean(IS_BOY, true);
-    }
-
-    public static void setIsBoy(Context context, boolean isBoy) {
-        initSharedPreference(context);
-        initEditor(context);
-        editor.putBoolean(IS_BOY, isBoy);
-        editor.commit();
-    }
-
-
-    //Motto---宣言
-    private static final String MOTTO = "motto";
-
-    public static String getMotto(Context context){
-        initSharedPreference(context);
-        return sharedPreferences.getString(MOTTO, "我的宣言");
-    }
-
-    public static void setMotto(Context context, String motto){
-        initSharedPreference(context);
-        initEditor(context);
-        editor.putString(MOTTO, motto);
-        editor.commit();
-    }
 
     public static boolean isBinding(Context context) {
         initSharedPreference(context);
@@ -85,55 +89,55 @@ public class PreferenceHelper {
         editor.commit();
     }
 
-    /**
-     * 判断是否登陆
-     *
-     * @param context
-     * @return
-     */
-    public static boolean isLogIn(Context context) {
+
+    //isBoy---是不是男的
+    private static final String IS_BOY = "isBoy";
+
+    public static boolean isBoy(Context context) {
         initSharedPreference(context);
-        return sharedPreferences.getBoolean(IS_LOG_IN, false);
+        return sharedPreferences.getBoolean(IS_BOY, true);
     }
 
-    /**
-     * 登陆
-     *
-     * @param context
-     */
-    public static void LogIn(Context context, String userName, String password) {
+    public static void setIsBoy(Context context, boolean isBoy) {
         initSharedPreference(context);
         initEditor(context);
-        editor.putBoolean(IS_LOG_IN, true);
-        editor.putString(USER_NAME, userName);
-        editor.putString(PASS_WORD, password);
+        editor.putBoolean(IS_BOY, isBoy);
         editor.commit();
     }
 
-    /**
-     * 登出
-     *
-     * @param context
-     */
-    public static void LogOut(Context context) {
+
+    //Conversation的ID
+    private static final String CONVERSATION_ID = "conversationId";
+
+    public static void setConversationId(Context context, String conversationId){
         initSharedPreference(context);
         initEditor(context);
-        editor.putBoolean(IS_LOG_IN, false);
+        editor.putString(CONVERSATION_ID, conversationId);
         editor.commit();
     }
 
-    public static boolean isFistIn(Context context) {
+    public static String getConversationId(Context context){
         initSharedPreference(context);
-        return sharedPreferences.getBoolean(IS_FIST_IN, true);
+        return sharedPreferences.getString(CONVERSATION_ID, null);
     }
 
-    public static void setIsFistIn(Context context, boolean isFistIn) {
+
+    //Motto---宣言
+    private static final String MOTTO = "motto";
+
+    public static String getMotto(Context context){
+        initSharedPreference(context);
+        return sharedPreferences.getString(MOTTO, "我的宣言");
+    }
+
+    public static void setMotto(Context context, String motto){
         initSharedPreference(context);
         initEditor(context);
-        editor.putBoolean(IS_FIST_IN, isFistIn);
+        editor.putString(MOTTO, motto);
         editor.commit();
     }
 
+    //本地用户信息---------------------------------------------------------
     public static void setUserName(Context context, String userName) {
         initSharedPreference(context);
         initEditor(context);

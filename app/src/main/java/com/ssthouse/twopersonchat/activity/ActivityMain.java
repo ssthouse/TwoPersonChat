@@ -100,6 +100,8 @@ public class ActivityMain extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         ViewHelper.initActionBar(this, actionBar, "MainActivity");
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.icon_menu);
+        actionBar.setHideOffset(0);
 
         //有没有网
         llNoInternet = (LinearLayout) findViewById(R.id.id_ll_no_internet);
@@ -108,7 +110,7 @@ public class ActivityMain extends AppCompatActivity {
         initSlidingMenu();
 
         //主界面
-        fragmentChat = new FragmentChat(this);
+        fragmentChat = FragmentChat.getInstance();
         fragmentRecord = new FragmentRecord(this);
         viewPager = (ViewPager) findViewById(R.id.id_view_pager);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {

@@ -41,6 +41,7 @@
     <!--ActivityChat-->
     <dimen name="chat_btn_size">32dp</dimen>
     <dimen name="chat_btn_margin">4dp</dimen>
+    <dimen name="chat_avatar_size">42dp</dimen>
 
 
     <!--Dialog相册或图库-->

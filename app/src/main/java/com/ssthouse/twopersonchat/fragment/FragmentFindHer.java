@@ -35,9 +35,17 @@ public class FragmentFindHer extends Fragment {
 
     private EditText etUserName;
 
-    public FragmentFindHer(Context context) {
+    public FragmentFindHer() {
+
+    }
+
+    private FragmentFindHer(Context context) {
         this.context = context;
         onFindHerListener = (OnFindHerListener) context;
+    }
+
+    public static FragmentFindHer getInstance(Context context){
+        return new FragmentFindHer(context);
     }
 
     private void initView(View view) {

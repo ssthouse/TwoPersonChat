@@ -13,11 +13,12 @@ import java.io.InputStream;
  * Created by ssthouse on 2015/8/7.
  */
 public class FileHelper {
-    private static final String TAG = "FileHlper";
+    private static final String TAG = "FileHelper";
 
     public static final String ROOT_PATH = "/storage/sdcard0/ssthouse/";
     public static final String AVATAR_PATH = ROOT_PATH + "avatar/";
     public static final String AVATAR_PATH_AND_NAME = ROOT_PATH + "avatar/avatar.jpg";
+    public static final String TA_AVATAR_PATH_AND_NAME = ROOT_PATH + "avatar/taAvatar.jpg";
 
 
     /**
@@ -44,6 +45,26 @@ public class FileHelper {
                 LogHelper.Log(TAG, "something is wrong2");
             }
             LogHelper.Log(TAG, "Avatar生成完毕");
+        }
+        //Ta头像
+        File taAvatarFile = new File(TA_AVATAR_PATH_AND_NAME);
+        if(!taAvatarFile.exists()){
+            taAvatarFile.getParentFile().mkdirs();
+            try {
+                taAvatarFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                LogHelper.Log(TAG, "something is wrong1");
+            }
+            //将文件替换为...drawable中的文件
+            try {
+                //复制文件到指定路径
+                copyFile(context.getAssets().open("taAvatar.png"), TA_AVATAR_PATH_AND_NAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+                LogHelper.Log(TAG, "something is wrong2");
+            }
+            LogHelper.Log(TAG, "taAvatar生成完毕");
         }
         //TODO---还有什么文件路径??
     }

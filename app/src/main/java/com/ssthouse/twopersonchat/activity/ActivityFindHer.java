@@ -38,7 +38,7 @@ public class ActivityFindHer extends AppCompatActivity implements
         setContentView(R.layout.activity_choose_her);
         TransparentStyle.setAppToTransparentStyle(this, getResources().getColor(R.color.color_primary_dark));
 
-        fragmentFindHer = new FragmentFindHer(this);
+        fragmentFindHer = FragmentFindHer.getInstance(this);
         fragmentManager = getSupportFragmentManager();
 
         initView();

@@ -6,49 +6,49 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
-import com.avos.avoscloud.im.v2.AVIMMessage;
-import com.avos.avoscloud.im.v2.AVIMMessageHandler;
-import com.avos.avoscloud.im.v2.AVIMMessageManager;
-import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
+import com.avos.avoscloud.im.v2.AVIMTypedMessage;
+import com.avos.avoscloud.im.v2.AVIMTypedMessageHandler;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
+import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.ssthouse.twopersonchat.R;
+import com.ssthouse.twopersonchat.lib.adapter.ChatListAdapter;
 import com.ssthouse.twopersonchat.lib.adapter.EmotionAdapter;
+import com.ssthouse.twopersonchat.lib.util.ChatHelper;
+import com.ssthouse.twopersonchat.lib.util.MsgHandler;
 import com.ssthouse.twopersonchat.lib.view.EmotionEditText;
 import com.ssthouse.twopersonchat.style.TransparentStyle;
 import com.ssthouse.twopersonchat.util.LogHelper;
+import com.ssthouse.twopersonchat.util.PreferenceHelper;
+import com.ssthouse.twopersonchat.util.ToastHelper;
 import com.ssthouse.twopersonchat.util.ViewHelper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 聊天的父类Activity
  * Created by ssthouse on 2015/8/6.
  */
 public abstract class BaseChatActivity extends AppCompatActivity
-        implements ChatActivityEventListener {
+        implements ChatActivityEventListener, View.OnClickListener {
     private static final String TAG = "BaseChatActivity";
-
-    private String myName;
-    private String taName;
-    public abstract String getMyName();
-    public abstract String getTaName();
 
     private AVIMClient avimClient;
     private AVIMConversation conversation;
+    private InnerHandler handler;
 
-    //刷新View
+    private ChatListAdapter adapter;
+
+    //UI-------------------------------------------
     private SwipeRefreshLayout swipeRefreshLayout;
     //展示内容的ListView
     private ListView lv;
@@ -56,14 +56,18 @@ public abstract class BaseChatActivity extends AppCompatActivity
     private Button btnMore;
     private Button btnEmotion;
     //Emotion的pager
+    private LinearLayout llEmotion;
     private ViewPager vpEmotion;
-    //一直在----add more
+    //更多的----View
+    private LinearLayout llMore;
     private TextView btnAddPicture, btnAddCamera, btnAddLocation;
     //文字输入
+    private LinearLayout llInputText;
     private EmotionEditText et;
     private Button btnSendMsg;
     private Button btnTurn2Voice;
     //语音输入
+    private LinearLayout llInputVoice;
     private Button btnRecord;
     private Button btnTurn2Text;
 
@@ -73,59 +77,75 @@ public abstract class BaseChatActivity extends AppCompatActivity
         setContentView(R.layout.activity_chat);
         TransparentStyle.setAppToTransparentStyle(this, getResources().getColor(R.color.color_primary_dark));
 
-        //初始化用户数据
-        myName = getMyName();
-        taName = getTaName();
 
-        //TODO---建立连接
-        avimClient = AVIMClient.getInstance(myName);
-        avimClient.open(new AVIMClientCallback() {
-            @Override
-            public void done(AVIMClient avimClient, AVIMException e) {
-                if (e == null) {
-                    LogHelper.Log(TAG, "我登录成功");
-                    createConversation();
-                } else {
-                    LogHelper.Log(TAG, "wrong 0");
-                }
-            }
-        });
+        //如果没有建立对话创建Conversation
+        if (PreferenceHelper.getConversationId(this) == null) {
+            ChatHelper.createConversation(this);
+        }
 
-        //好像也要放在application中
-        //TODO---创建---消息接收器
-        AVIMMessageManager.registerDefaultMessageHandler(new AVIMMessageHandler() {
-            @Override
-            public void onMessage(AVIMMessage message, AVIMConversation conversation, AVIMClient client) {
-                //打印消息
-                LogHelper.Log(TAG, "收到消息:   " + message.getContent());
-                super.onMessage(message, conversation, client);
-            }
-        });
+        //初始化数据
+        avimClient = AVIMClient.getInstance(PreferenceHelper.getUserName(this));
+        conversation = ChatHelper.getConversation(this);
+        handler = new InnerHandler();
+
+        //设置消息监听器
+        MsgHandler.setActivityMessageHandler(handler);
 
         initView();
     }
 
-    //发送---其他消息的监听器
-    private View.OnClickListener addMoreListener = new View.OnClickListener(){
-
-        @Override
-        public void onClick(View v) {
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //加号按钮
+            case R.id.id_btn_show_more:
+                if (llMore.getVisibility() == View.VISIBLE) {
+                    llMore.setVisibility(View.GONE);
+                } else {
+                    ViewHelper.hideKeyMap(this, swipeRefreshLayout);
+                    llEmotion.setVisibility(View.GONE);
+                    llMore.setVisibility(View.VISIBLE);
+                }
+                break;
+            //Emoji按钮
+            case R.id.id_btn_show_emotion:
+                if (llEmotion.getVisibility() == View.VISIBLE) {
+                    llEmotion.setVisibility(View.GONE);
+                } else {
+                    ViewHelper.hideKeyMap(this, swipeRefreshLayout);
+                    llEmotion.setVisibility(View.VISIBLE);
+                    llMore.setVisibility(View.GONE);
+                    //自动切换为文字模式
+                    llInputText.setVisibility(View.VISIBLE);
+                    llInputVoice.setVisibility(View.GONE);
+                }
+                break;
+            //转语音按钮
+            case R.id.id_btn_turn_2_voice:
+                ViewHelper.hideKeyMap(this, swipeRefreshLayout);
+                llEmotion.setVisibility(View.GONE);
+                llMore.setVisibility(View.GONE);
+                llInputText.setVisibility(View.GONE);
+                llInputVoice.setVisibility(View.VISIBLE);
+                break;
+            //转文字按钮
+            case R.id.id_btn_turn_2_text:
+                ViewHelper.hideKeyMap(this, swipeRefreshLayout);
+                llEmotion.setVisibility(View.GONE);
+                llMore.setVisibility(View.GONE);
+                llInputText.setVisibility(View.VISIBLE);
+                llInputVoice.setVisibility(View.GONE);
+                break;
+            //发送按钮
+            case R.id.id_btn_send_msg:
+                sendTextMsg();
+                break;
         }
-    };
-
-    //emotion的监听器
-    private View.OnClickListener emotionListener = new View.OnClickListener(){
-
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
+    }
 
     private void initView() {
         ActionBar actionBar = getSupportActionBar();
-        ViewHelper.initActionBar(this, actionBar, taName);
+        ViewHelper.initActionBar(this, actionBar, PreferenceHelper.getBindingName(this));
 
         //刷新View
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.id_swipe_refresh);
@@ -148,39 +168,71 @@ public abstract class BaseChatActivity extends AppCompatActivity
 
         //主ListView
         lv = (ListView) findViewById(R.id.id_lv);
-
-        et = (EmotionEditText) findViewById(R.id.id_et_msg);
+        adapter = new ChatListAdapter(this);
+        lv.setAdapter(adapter);
 
         //一直在的输入按钮
         btnMore = (Button) findViewById(R.id.id_btn_show_more);
+        btnMore.setOnClickListener(this);
         btnEmotion = (Button) findViewById(R.id.id_btn_show_emotion);
+        btnEmotion.setOnClickListener(this);
+
+        //文字输入----输入框
+        llInputText = (LinearLayout) findViewById(R.id.id_ll_chat_input_text);
+        btnSendMsg = (Button) findViewById(R.id.id_btn_send_msg);
+        btnSendMsg.setOnClickListener(this);
+        btnTurn2Voice = (Button) findViewById(R.id.id_btn_turn_2_voice);
+        btnTurn2Voice.setOnClickListener(this);
+        et = (EmotionEditText) findViewById(R.id.id_et_msg);
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) {
+                    btnTurn2Voice.setVisibility(View.VISIBLE);
+                    btnSendMsg.setVisibility(View.GONE);
+                } else {
+                    btnTurn2Voice.setVisibility(View.GONE);
+                    btnSendMsg.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    llEmotion.setVisibility(View.GONE);
+                    llMore.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        //语音输入
+        llInputVoice = (LinearLayout) findViewById(R.id.id_ll_chat_input_voice);
+        btnRecord = (Button) findViewById(R.id.id_btn_record);
+        btnTurn2Text = (Button) findViewById(R.id.id_btn_turn_2_text);
+        btnTurn2Text.setOnClickListener(this);
 
         //Emotion的pager
+        llEmotion = (LinearLayout) findViewById(R.id.id_ll_emotion);
         vpEmotion = (ViewPager) findViewById(R.id.id_vp_emotion);
         vpEmotion.setAdapter(new EmotionAdapter(this, et));
 
-        //一直在的表情---其他信息
+        //更多---其他信息
+        llMore = (LinearLayout) findViewById(R.id.id_ll_more);
         btnAddPicture = (TextView) findViewById(R.id.id_btn_add_picture);
         btnAddCamera = (TextView) findViewById(R.id.id_btn_add_camera);
         btnAddLocation = (TextView) findViewById(R.id.id_btn_add_location);
-        btnAddPicture.setOnClickListener(addMoreListener);
-        btnAddCamera.setOnClickListener(addMoreListener);
-        btnAddLocation.setOnClickListener(addMoreListener);
-
-        //文字输入
-        btnSendMsg = (Button) findViewById(R.id.id_btn_send_msg);
-        btnSendMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //发送文字消息
-                sendTextMsg();
-            }
-        });
-        btnTurn2Voice = (Button) findViewById(R.id.id_btn_turn_2_voice);
-
-        //语音输入
-        btnRecord = (Button) findViewById(R.id.id_btn_record);
-        btnTurn2Text = (Button) findViewById(R.id.id_btn_turn_2_text);
+        btnAddPicture.setOnClickListener(this);
+        btnAddCamera.setOnClickListener(this);
+        btnAddLocation.setOnClickListener(this);
     }
 
     /**
@@ -188,8 +240,15 @@ public abstract class BaseChatActivity extends AppCompatActivity
      * 发送文字消息
      */
     public void sendTextMsg() {
-        AVIMMessage message = new AVIMMessage();
-        message.setContent("hello");
+        if (TextUtils.isEmpty(et.getText())) {
+            return;
+        }
+        AVIMTextMessage message = new AVIMTextMessage();
+        message.setText(et.getText().toString());
+        if (conversation == null) {
+            conversation = avimClient.getConversation(PreferenceHelper.getConversationId(this));
+            LogHelper.Log(TAG, "我更新了conversation");
+        }
         conversation.sendMessage(message, new AVIMConversationCallback() {
             @Override
             public void done(AVIMException e) {
@@ -202,34 +261,28 @@ public abstract class BaseChatActivity extends AppCompatActivity
                 }
             }
         });
+        //TODO---更新视图
+        et.setText("");
+        adapter.addMessage(message, lv);
     }
 
-    /**
-     * TODO---好像应该放到application中
-     * 创建对话
-     */
-    public void createConversation() {
-        //创建房间
-        List<String> clientIds = new ArrayList<String>();
-        clientIds.add(myName);
-        clientIds.add(taName);
-        // 我们给对话增加一个自定义属性 type，表示单聊还是群聊
-        // 常量定义：
-        // int ConversationType_OneOne = 0; // 两个人之间的单聊
-        // int ConversationType_Group = 1;  // 多人之间的群聊
-        Map<String, Object> attr = new HashMap<String, Object>();
-        attr.put("type", 0);
-        avimClient.createConversation(clientIds, attr, new AVIMConversationCreatedCallback() {
-            @Override
-            public void done(AVIMConversation conversation, AVIMException e) {
-                if (null != conversation) {
-                    // 成功了，这时候可以显示对话的 Activity 页面（假定为 ChatActivity）了。
-                    BaseChatActivity.this.conversation = conversation;
-                    LogHelper.Log(TAG, "房间创建成功");
-                } else {
-                    LogHelper.Log(TAG, "wrong 1:    " + e.toString());
-                }
-            }
-        });
+
+    public class InnerHandler extends AVIMTypedMessageHandler<AVIMTypedMessage> {
+
+        @Override
+        public void onMessage(AVIMTypedMessage message, AVIMConversation conversation, AVIMClient client) {
+            //            switch (message.)
+            LogHelper.Log(TAG, message.getContent());
+            ToastHelper.showToast(BaseChatActivity.this, message.getContent());
+            //TODO---更新视图
+            adapter.addMessage(message, lv);
+        }
+
+        @Override
+        public void onMessageReceipt(AVIMTypedMessage message, AVIMConversation conversation, AVIMClient client) {
+
+            ToastHelper.showToast(BaseChatActivity.this, "对方已接收");
+            LogHelper.Log(TAG, message.getContent() + "   对方已接收");
+        }
     }
 }
