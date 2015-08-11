@@ -1,15 +1,14 @@
-package com.ssthouse.twopersonchat.lib.util;
+package com.ssthouse.twopersonchat.lib;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMTypedMessage;
 import com.avos.avoscloud.im.v2.AVIMTypedMessageHandler;
-import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.ssthouse.twopersonchat.util.LogHelper;
+import com.ssthouse.twopersonchat.util.NotificationHelper;
 
 /**
  * 全局的一个单例Handler
@@ -36,19 +35,22 @@ public class MsgHandler extends AVIMTypedMessageHandler<AVIMTypedMessage> {
 
     @Override
     public void onMessage(AVIMTypedMessage message, AVIMConversation conversation, AVIMClient client) {
-        LogHelper.Log(TAG, "现在是appliaction中的handler");
+        //TODO--如果消息是1--接收到的消息--一定是一邀请加入的消息
+        if(message.getMessageType() == 1){
+            //TODO---弹出对话框--选择接不接受邀请
+//            ActivityInvite.start(context, message);
+            LogHelper.Log(TAG, "我接受到了---请求消息---弹出了--notification");
+            NotificationHelper.showInviteNotify(context, message);
+            return;
+        }
         if (activityMessageHandler != null) {
             // 正在聊天时，分发消息，刷新界面
             activityMessageHandler.onMessage(message, conversation, client);
-            LogHelper.Log(TAG, "我调用了InnerHelper中的Handler");
+//            LogHelper.Log(TAG, "我调用了InnerHelper中的Handler");
         } else {
-            // 没有打开聊天界面，这里简单地 Toast 一下。实际中可以刷新最近消息页面，增加小红点
-            if (message instanceof AVIMTextMessage) {
-                AVIMTextMessage textMessage = (AVIMTextMessage) message;
-                Toast.makeText(context, "新消息 " + message.getFrom() + " : "
-                        + textMessage.getText(), Toast.LENGTH_SHORT).show();
-            }
-            LogHelper.Log(TAG, "InnerHandler是空的!!!");
+            // 打开tNotification
+            LogHelper.Log(TAG, "现在是application中的handler");
+            NotificationHelper.showMsgNotify(context, message);
         }
     }
 

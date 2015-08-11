@@ -15,8 +15,8 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
 import com.ssthouse.twopersonchat.R;
+import com.ssthouse.twopersonchat.lib.util.ChatHelper;
 import com.ssthouse.twopersonchat.style.TransparentStyle;
-import com.ssthouse.twopersonchat.util.LogHelper;
 import com.ssthouse.twopersonchat.util.PreferenceHelper;
 import com.ssthouse.twopersonchat.util.ToastHelper;
 import com.ssthouse.twopersonchat.util.ViewHelper;
@@ -64,8 +64,10 @@ public class ActivityLogin extends AppCompatActivity {
                                         PreferenceHelper.LogIn(ActivityLogin.this, userName, passWord);
                                         finish();
                                         ActivityMain.start(ActivityLogin.this);
+                                        //TODO---登陆
+                                        ChatHelper.openConnection(ActivityLogin.this);
                                     } else {
-                                        // 登录失败
+                                       // 登录失败
                                         ToastHelper.showToast(ActivityLogin.this, "登陆失败");
                                     }
                                 }

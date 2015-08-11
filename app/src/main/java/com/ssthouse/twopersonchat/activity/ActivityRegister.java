@@ -136,6 +136,15 @@ public class ActivityRegister extends AppCompatActivity {
                 }.execute();
             }
         });
+
+        //已有账号---直接登陆
+        findViewById(R.id.id_btn_log_in).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                ActivityLogin.start(ActivityRegister.this);
+            }
+        });
     }
 
     private void login() {

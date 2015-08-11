@@ -18,21 +18,23 @@ import android.widget.TextView;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMTypedMessage;
 import com.avos.avoscloud.im.v2.AVIMTypedMessageHandler;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
+import com.avos.avoscloud.im.v2.callback.AVIMMessagesQueryCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.ssthouse.twopersonchat.R;
 import com.ssthouse.twopersonchat.lib.adapter.ChatListAdapter;
 import com.ssthouse.twopersonchat.lib.adapter.EmotionAdapter;
 import com.ssthouse.twopersonchat.lib.util.ChatHelper;
-import com.ssthouse.twopersonchat.lib.util.MsgHandler;
 import com.ssthouse.twopersonchat.lib.view.EmotionEditText;
 import com.ssthouse.twopersonchat.style.TransparentStyle;
 import com.ssthouse.twopersonchat.util.LogHelper;
 import com.ssthouse.twopersonchat.util.PreferenceHelper;
-import com.ssthouse.twopersonchat.util.ToastHelper;
 import com.ssthouse.twopersonchat.util.ViewHelper;
+
+import java.util.List;
 
 /**
  * 聊天的父类Activity
@@ -42,10 +44,15 @@ public abstract class BaseChatActivity extends AppCompatActivity
         implements ChatActivityEventListener, View.OnClickListener {
     private static final String TAG = "BaseChatActivity";
 
+    //初始时加载的消息数量
+    private static final int PAGE_SIZE = 10;
+
+    //消息处理相关
     private AVIMClient avimClient;
     private AVIMConversation conversation;
     private InnerHandler handler;
 
+    //数据处理相关
     private ChatListAdapter adapter;
 
     //UI-------------------------------------------
@@ -77,7 +84,6 @@ public abstract class BaseChatActivity extends AppCompatActivity
         setContentView(R.layout.activity_chat);
         TransparentStyle.setAppToTransparentStyle(this, getResources().getColor(R.color.color_primary_dark));
 
-
         //如果没有建立对话创建Conversation
         if (PreferenceHelper.getConversationId(this) == null) {
             ChatHelper.createConversation(this);
@@ -92,6 +98,9 @@ public abstract class BaseChatActivity extends AppCompatActivity
         MsgHandler.setActivityMessageHandler(handler);
 
         initView();
+
+        //加载历史对话
+        loadMessagesWhenInit();
     }
 
     @Override
@@ -235,6 +244,25 @@ public abstract class BaseChatActivity extends AppCompatActivity
         btnAddLocation.setOnClickListener(this);
     }
 
+    private void loadMessagesWhenInit() {
+        //防止conversation为空
+        if (conversation == null) {
+            conversation = avimClient.getConversation(PreferenceHelper.getConversationId(this));
+            LogHelper.Log(TAG, "我更新了conversation");
+        }
+        conversation.queryMessages(PAGE_SIZE, new AVIMMessagesQueryCallback() {
+            @Override
+            public void done(List<AVIMMessage> list, AVIMException e) {
+                if (e == null) {
+                    adapter.addMessage(list, lv);
+                    LogHelper.Log(TAG, "我把历史记录添加进去了adapter");
+                } else {
+                    LogHelper.Log(TAG, "历史记录查询失败....");
+                }
+            }
+        });
+    }
+
     /**
      * TODO
      * 发送文字消息
@@ -267,22 +295,36 @@ public abstract class BaseChatActivity extends AppCompatActivity
     }
 
 
+    /**
+     * 对话内的Handler
+     */
     public class InnerHandler extends AVIMTypedMessageHandler<AVIMTypedMessage> {
 
         @Override
         public void onMessage(AVIMTypedMessage message, AVIMConversation conversation, AVIMClient client) {
-            //            switch (message.)
-            LogHelper.Log(TAG, message.getContent());
-            ToastHelper.showToast(BaseChatActivity.this, message.getContent());
-            //TODO---更新视图
+//            LogHelper.Log(TAG, message.getContent());
+            //只用放进去就好了-------剩下的交给adapter处理
             adapter.addMessage(message, lv);
         }
 
         @Override
         public void onMessageReceipt(AVIMTypedMessage message, AVIMConversation conversation, AVIMClient client) {
-
-            ToastHelper.showToast(BaseChatActivity.this, "对方已接收");
+//            ToastHelper.showToast(BaseChatActivity.this, "对方已接收");
             LogHelper.Log(TAG, message.getContent() + "   对方已接收");
         }
+    }
+
+
+    //监听消息的Handler的生命周期------------------------------
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MsgHandler.setActivityMessageHandler(handler);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MsgHandler.setActivityMessageHandler(null);
     }
 }

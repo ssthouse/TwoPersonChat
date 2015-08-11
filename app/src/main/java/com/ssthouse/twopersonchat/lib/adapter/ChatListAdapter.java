@@ -12,11 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMTypedMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.ssthouse.twopersonchat.R;
 import com.ssthouse.twopersonchat.util.FileHelper;
-import com.ssthouse.twopersonchat.util.LogHelper;
 import com.ssthouse.twopersonchat.util.PreferenceHelper;
 
 import java.util.ArrayList;
@@ -46,7 +46,6 @@ public class ChatListAdapter extends BaseAdapter {
         //填充本地数据
         meAvatarBitmap = BitmapFactory.decodeFile(FileHelper.AVATAR_PATH_AND_NAME);
         taAvatarBitmap = BitmapFactory.decodeFile(FileHelper.TA_AVATAR_PATH_AND_NAME);
-        //TODO---获取最近的10条消息-----填充进来
     }
 
     /**
@@ -59,8 +58,22 @@ public class ChatListAdapter extends BaseAdapter {
         notifyDataSetChanged();
         //滚动到最下方
         lv.smoothScrollToPosition(this.getCount() - 1);
-        LogHelper.Log(TAG, "我刷新了listview");
+//        LogHelper.Log(TAG, "我刷新了listview");
     }
+
+    public void addMessage(List<AVIMMessage> msgList, ListView lv) {
+        for(AVIMMessage msg : msgList){
+            //TODO
+            if(((AVIMTypedMessage)msg).getMessageType() != 1) {
+                addMessage((AVIMTypedMessage) msg, lv);
+            }
+        }
+        notifyDataSetChanged();
+        //滚动到最下方
+        lv.smoothScrollToPosition(this.getCount() - 1);
+//        LogHelper.Log(TAG, "我刷新了listview");
+    }
+
 
     @Override
     public int getCount() {
@@ -112,9 +125,18 @@ public class ChatListAdapter extends BaseAdapter {
                     llContainer.addView(tvContent);
                 }
                 return convertView;
+            case -2:
+                //图像消息
+                return convertView;
+            case -3:
+                //音频消息
+                return convertView;
+            case -5:
+                //位置消息
+                return convertView;
             default:
                 return convertView;
         }
-
     }
+
 }

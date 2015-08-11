@@ -75,7 +75,7 @@ public class PreferenceHelper {
 
     public static String getBindingName(Context context) {
         initSharedPreference(context);
-        return sharedPreferences.getString(TA_USER_NAME, "");
+        return sharedPreferences.getString(TA_USER_NAME, null);
     }
 
     public static void setBinding(Context context, String taUserName) {

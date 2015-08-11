@@ -62,8 +62,9 @@ public class ActivityMain extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TransparentStyle.setAppToTransparentStyle(this, getResources().getColor(R.color.color_primary_dark));
 
-        //TODO----test---应该放到第一次运行里面
+        //TODO----test
 //        FileHelper.initAppDirectory(this);
+//        NotificationHelper.showMsgNotify(this);
 
         //判断是否是第一次
         if (PreferenceHelper.isFistIn(this)) {

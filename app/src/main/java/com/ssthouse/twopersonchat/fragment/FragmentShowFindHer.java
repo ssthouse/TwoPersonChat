@@ -10,8 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMConversation;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.ssthouse.twopersonchat.R;
+import com.ssthouse.twopersonchat.lib.message.InviteMessage;
+import com.ssthouse.twopersonchat.lib.util.ChatHelper;
 import com.ssthouse.twopersonchat.util.PreferenceHelper;
+import com.ssthouse.twopersonchat.util.ToastHelper;
 
 /**
  * Created by ssthouse on 2015/8/5.
@@ -22,7 +28,7 @@ public class FragmentShowFindHer extends Fragment {
     private AVUser avUser;
     private Context context;
 
-    public FragmentShowFindHer(Context context, AVUser avUser){
+    public FragmentShowFindHer(Context context, AVUser avUser) {
         this.avUser = avUser;
         this.context = context;
     }
@@ -35,7 +41,7 @@ public class FragmentShowFindHer extends Fragment {
         return view;
     }
 
-    private void initView(View view){
+    private void initView(View view) {
         TextView tvUerName = (TextView) view.findViewById(R.id.id_tv_user_name);
         tvUerName.setText(avUser.getUsername());
 
@@ -52,6 +58,27 @@ public class FragmentShowFindHer extends Fragment {
                 //AVUser.getCurrentUser(User.class).setTaUserName(avUser.getUsername());
                 //TODO---如果成功了--退回
                 getActivity().finish();
+                //TODO---发送一条消息过去---前提是已经创建好了--conversation
+                //先创建--conversation
+                ChatHelper.createConversation(context);
+                //创建验证消息
+                InviteMessage msg = new InviteMessage();
+                msg.setText(PreferenceHelper.getConversationId(context));
+                //发送验证消息
+                AVIMConversation conversation = ChatHelper.getConversation(context);
+                if (conversation != null) {
+                    conversation.sendMessage(msg, new AVIMConversationCallback() {
+                        @Override
+                        public void done(AVIMException e) {
+                            if (e == null) {
+                                ToastHelper.showToast(context, "请求发送成功");
+                            } else {
+
+                                ToastHelper.showToast(context, "请求发送失败");
+                            }
+                        }
+                    });
+                }
             }
         });
     }

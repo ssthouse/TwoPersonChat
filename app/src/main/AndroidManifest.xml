@@ -50,6 +50,8 @@
         <activity android:name=".activity.ActivitySetting"/>
         <activity android:name=".activity.ActivityUserInfo"/>
 
+        <activity android:name=".activity.ActivityInvite"/>
+
         <!--测试-->
         <activity android:name=".test.ActivityTest"/>
 

@@ -69,4 +69,14 @@
         android:layout_height="wrap_content"
         android:text="注册"/>
 
+
+    <Button
+        android:background="@drawable/selector_btn_to_blue"
+        android:textColor="@drawable/selector_text_to_white"
+        android:id="@+id/id_btn_log_in"
+        android:layout_margin="8dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="@dimen/register_btn_commit_width"
+        android:layout_height="wrap_content"
+        android:text="直接登陆"/>
 </LinearLayout>
